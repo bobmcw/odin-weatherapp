@@ -6,10 +6,12 @@ const forecastUrl = "http://api.weatherapi.com/v1/forecast.json";
 
 const locationform = document.querySelector("form");
 const forminput = document.querySelector("#location");
-async function fetchWeather(form) {
+async function fetchCurrentWeather(form) {
   form.preventDefault();
   await fetch(`${currentUrl}?key=${apiKey}&q=${forminput.value}`).then(
     (response) => {console.log(response.json())}
   );
 }
-locationform.addEventListener("submit", fetchWeather);
+locationform.addEventListener("submit", fetchCurrentWeather);
+
+
