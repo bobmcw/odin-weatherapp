@@ -21,25 +21,26 @@ async function fetchCurrentWeather(form) {
 function drawCurrentWeather(data) {
   const unit = document.querySelector('input[name=unit]')
   const container = document.querySelector(".container");
+  container.innerHTML = "";
   console.log(data);
-  const currentBody = document.createElement("div");
-  currentBody.classList.add("current");
+  const location = document.createElement("div");
+  location.classList.add("current");
   const country = document.createElement("h3");
   console.log(data);
   country.innerText = data.location.country;
   const city = document.createElement("h1");
   city.innerText = data.location.name;
-  currentBody.appendChild(city);
-  currentBody.appendChild(country);
-  container.appendChild(currentBody);
+  location.appendChild(city)
+  location.appendChild(country)
   const weatherBody = document.createElement("div");
   weatherBody.classList.add("currentWeather");
   const condition = document.createElement("h3");
   condition.innerText = data.current.condition.text;
   const temperature = document.createElement("h3");
   temperature.innerText = unit.checked ? `${data.current.temp_c} C` : `${data.current.temp_f} F`;
-  weatherBody.appendChild(condition);
-  weatherBody.appendChild(temperature);
+  location.appendChild(condition);
+  location.appendChild(temperature);
+  weatherBody.appendChild(location);
   container.appendChild(weatherBody);
 }
 locationform.addEventListener("submit", fetchCurrentWeather);

@@ -2,7 +2,48 @@
     margin: 0;
     padding: 0;
 }
-.current{
+.search{
+    border: 1px solid black;
+    width: 400px;
+    background-color: blue;
+}
+.search > :nth-child(2){
+    background-color: blue;
+    width: 10%;
+    height: 10%;
+    font-size: 1.5rem;
+    overflow: hidden;
+    color: white;
+    border: none;
+}
+.search > :nth-child(1){
+    border: none;
+    font-size: 1.5rem;
+    width: 80%;
+    height: 50px;
+}
+.container{
+    width: 100vw;
+    height: 100vh;
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.currentWeather{
+    border: 1px solid black;
+    width: 40%;
+    height: 20%;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    position: relative
+};
+.current{
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    width: 200px;
+    height: 100%;
+    justify-content: center;
 }
