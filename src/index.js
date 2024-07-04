@@ -1,6 +1,7 @@
 import "./style.css";
 
 const apiKey = "68752630d7b8413394e160934242806";
+const giphyKey = "HKFr61JQJ6oZ78TfJqmWSxhiX14BKZRT"
 const currentUrl = "http://api.weatherapi.com/v1/current.json";
 const forecastUrl = "http://api.weatherapi.com/v1/forecast.json";
 
@@ -38,9 +39,22 @@ function drawCurrentWeather(data) {
   condition.innerText = data.current.condition.text;
   const temperature = document.createElement("h3");
   temperature.innerText = unit.checked ? `${data.current.temp_c} C` : `${data.current.temp_f} F`;
+  const locationBG = document.createElement('div')
   location.appendChild(condition);
   location.appendChild(temperature);
-  weatherBody.appendChild(location);
+  locationBG.style.backgroundColor = 'rgba(0,0,0,0.5)'
+  locationBG.style.width = '30%'
+  locationBG.style.height = '100%'
+  location.style.color = 'white';
+  locationBG.appendChild(location)
+  weatherBody.appendChild(locationBG);
   container.appendChild(weatherBody);
+    const query = data.current.condition.text.replace(/\s/g, '-')
+    fetch(`https://api.giphy.com/v1/gifs/search?api_key=${giphyKey}&q=outside-${query}-weather&limit=1&offset=0&rating=g&lang=en&bundle=messaging_non_clips`, {mode: 'cors'})
+    .then((response)=>{return response.json()})
+    .then((data)=>{return data.data[0].images.original.webp})
+    .then((url)=>{
+        weatherBody.style.backgroundImage = `url('${url}')`;
+    })
 }
 locationform.addEventListener("submit", fetchCurrentWeather);

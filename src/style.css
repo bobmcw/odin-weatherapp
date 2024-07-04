@@ -37,13 +37,19 @@
     border-radius: 8px;
     display: flex;
     flex-direction: column;
-    position: relative
+    position: relative;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
 };
-.current{
+.currentWeather.current>*{
     position: absolute;
+    align-self: center;
     display: flex;
     flex-direction: column;
     width: 200px;
     height: 100%;
     justify-content: center;
+    color: white;
+    background-color: black;
 }
