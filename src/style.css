@@ -1,0 +1,8 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+.current{
+    display: flex;
+    flex-direction: column;
+}
