@@ -19,6 +19,7 @@ async function fetchCurrentWeather(form) {
     });
 }
 function drawCurrentWeather(data) {
+  const unit = document.querySelector('input[name=unit]')
   const container = document.querySelector(".container");
   console.log(data);
   const currentBody = document.createElement("div");
@@ -26,10 +27,19 @@ function drawCurrentWeather(data) {
   const country = document.createElement("h3");
   console.log(data);
   country.innerText = data.location.country;
-  const city = document.createElement('h1');
+  const city = document.createElement("h1");
   city.innerText = data.location.name;
   currentBody.appendChild(city);
   currentBody.appendChild(country);
-  container.appendChild(currentBody)
+  container.appendChild(currentBody);
+  const weatherBody = document.createElement("div");
+  weatherBody.classList.add("currentWeather");
+  const condition = document.createElement("h3");
+  condition.innerText = data.current.condition.text;
+  const temperature = document.createElement("h3");
+  temperature.innerText = unit.checked ? `${data.current.temp_c} C` : `${data.current.temp_f} F`;
+  weatherBody.appendChild(condition);
+  weatherBody.appendChild(temperature);
+  container.appendChild(weatherBody);
 }
 locationform.addEventListener("submit", fetchCurrentWeather);
