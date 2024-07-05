@@ -18,12 +18,16 @@ async function fetchCurrentWeather(form) {
     .then((data) => {
       drawCurrentWeather(data);
     });
+    await fetch(`${forecastUrl}?key=${apiKey}&q=${forminput.value}&days=3`, {mode: 'cors'}).then((response)=>{
+        return response.json()
+    }).then((data)=>{
+        drawForecast(data)
+    })
 }
 function drawCurrentWeather(data) {
   const unit = document.querySelector('input[name=unit]')
   const container = document.querySelector(".container");
   container.innerHTML = "";
-  console.log(data);
   const location = document.createElement("div");
   location.classList.add("current");
   const country = document.createElement("h3");
@@ -50,4 +54,29 @@ function drawCurrentWeather(data) {
         weatherBody.style.backgroundImage = `url('${url}')`;
     })
 }
+class forecastday{
+    constructor(date,mintemp,maxtemp,avgtemp){
+        this.date = date;
+        this.mintemp = mintemp;
+        this.maxtemp = maxtemp;
+        this.avgtemp = avgtemp
+    }
+    get printdata(){
+        console.log(this.maxtemp)
+    }
+}
+function drawForecast(data){
+    console.log(data) 
+    const unit = true
+  const preferedUnit = unit ? `temp_c` : `temp_f`;
+  const days = []
+  data.forecast.forecastday.forEach(day => {
+   days.push(new forecastday(day.date,day.day[`min${preferedUnit}`],day.day[`max${preferedUnit}`],day.day[`avg${preferedUnit}`])) 
+  });
+  console.log(days)
+  days.forEach(day => {
+    day.printdata
+  });
+}
 locationform.addEventListener("submit", fetchCurrentWeather);
+
