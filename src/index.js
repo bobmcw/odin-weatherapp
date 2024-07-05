@@ -64,8 +64,25 @@ class forecastday{
     get printdata(){
         console.log(this.maxtemp)
     }
+    get showValues(){
+        const container = document.querySelector(".forecast")
+        console.log(container)
+        const forecastItem = document.createElement('div')
+        forecastItem.classList.add("forecastItem")
+        const date = document.createElement("h2")
+        date.innerText = this.date
+        const temps = document.createElement('h3')
+        temps.innerText = `${this.mintemp} - ${this.maxtemp}`
+        const average = document.createElement('h3')
+        average.innerText = `avg. ${this.avgtemp}`
+        forecastItem.appendChild(date)
+        forecastItem.appendChild(temps)
+        forecastItem.appendChild(average)
+        container.appendChild(forecastItem)
+    }
 }
 function drawForecast(data){
+    const container = document.querySelector('.container')
     console.log(data) 
     const unit = true
   const preferedUnit = unit ? `temp_c` : `temp_f`;
@@ -74,8 +91,11 @@ function drawForecast(data){
    days.push(new forecastday(day.date,day.day[`min${preferedUnit}`],day.day[`max${preferedUnit}`],day.day[`avg${preferedUnit}`])) 
   });
   console.log(days)
+  const forecasts = document.createElement('div')
+  forecasts.classList.add('forecast')
+  container.appendChild(forecasts)
   days.forEach(day => {
-    day.printdata
+    day.showValues
   });
 }
 locationform.addEventListener("submit", fetchCurrentWeather);
