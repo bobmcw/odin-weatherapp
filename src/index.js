@@ -7,6 +7,7 @@ const forecastUrl = "http://api.weatherapi.com/v1/forecast.json";
 
 const locationform = document.querySelector("form");
 const forminput = document.querySelector("#location");
+let userPrefersCelcius = false;
 async function fetchCurrentWeather(form) {
   form.preventDefault();
   await fetch(`${currentUrl}?key=${apiKey}&q=${forminput.value}`, {
@@ -26,6 +27,7 @@ async function fetchCurrentWeather(form) {
 }
 function drawCurrentWeather(data) {
   const unit = document.querySelector('input[name=unit]')
+  userPrefersCelcius = unit.checked
   const container = document.querySelector(".container");
   container.innerHTML = "";
   const location = document.createElement("div");
@@ -41,7 +43,7 @@ function drawCurrentWeather(data) {
   const condition = document.createElement("h3");
   condition.innerText = data.current.condition.text;
   const temperature = document.createElement("h3");
-  temperature.innerText = unit.checked ? `${data.current.temp_c} C` : `${data.current.temp_f} F`;
+  temperature.innerText = userPrefersCelcius ? `${data.current.temp_c} C` : `${data.current.temp_f} F`;
   location.appendChild(condition);
   location.appendChild(temperature);
   weatherBody.appendChild(location);
@@ -66,15 +68,16 @@ class forecastday{
     }
     get showValues(){
         const container = document.querySelector(".forecast")
+        const unitSymbol = userPrefersCelcius ? 'C' : 'F'
         console.log(container)
         const forecastItem = document.createElement('div')
         forecastItem.classList.add("forecastItem")
         const date = document.createElement("h2")
         date.innerText = this.date
         const temps = document.createElement('h3')
-        temps.innerText = `${this.mintemp} - ${this.maxtemp}`
+        temps.innerText = `${this.mintemp} ${unitSymbol} - ${this.maxtemp} ${unitSymbol}`
         const average = document.createElement('h3')
-        average.innerText = `avg. ${this.avgtemp}`
+        average.innerText = `avg. ${this.avgtemp} ${unitSymbol}`
         forecastItem.appendChild(date)
         forecastItem.appendChild(temps)
         forecastItem.appendChild(average)
@@ -84,8 +87,7 @@ class forecastday{
 function drawForecast(data){
     const container = document.querySelector('.container')
     console.log(data) 
-    const unit = true
-  const preferedUnit = unit ? `temp_c` : `temp_f`;
+  const preferedUnit = userPrefersCelcius ? `temp_c` : `temp_f`;
   const days = []
   data.forecast.forecastday.forEach(day => {
    days.push(new forecastday(day.date,day.day[`min${preferedUnit}`],day.day[`max${preferedUnit}`],day.day[`avg${preferedUnit}`])) 
